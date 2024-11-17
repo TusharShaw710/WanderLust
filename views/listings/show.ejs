@@ -1,0 +1,46 @@
+<% layout("/layouts/boilerplate")-%>
+<body>
+    <h1>List Detail</h1>
+    <u>
+
+        <div class="card show-card" style="width: 58rem;">
+            <img src="<%=list.image.url%>" class="card-img-top top-show offset-4" alt="listing_img" >
+            <div class="card-body">
+              <p class="card-text show-text">
+                <li><%=list.title%></li> <br>
+                <li><%=list.description%></li> <br>
+                <li>&#8377;<%=list.price.toLocaleString("en-IN")%>%></li> <br>
+                <li><%=list.location%></li> <br>
+                <li><%=list.country%></li> <br>
+                <div style="display: flex;" class="button">
+
+                  <form action="/listing/<%=list._id%>/edit">
+                    <button class="btn btn-dark add-btn" style="margin-right: 10px;">Edit</button>
+                  </form>
+                  <form action="/listings/<%=list._id%>/delete">
+                    <button class="btn btn-dark add-btn" >Delete</button>
+                  </form>
+                </div>
+                
+              </p>
+            </div>
+          </u>
+              
+
+
+
+          
+      </div>
+    <!-- <ul>
+        <li><%=list.title%></li>
+        <li><%=list.description%></li>
+        <li>&#8377;<%=list.price.toLocaleString("en-IN")%></li>
+        <li><%=list.location%></li>
+        <li><%=list.country%></li>
+    </ul>
+    <a href="/listing/<%=list._id%>/edit">Edit</a><br><br>
+    <form method="get" action="/listings/<%=list._id%>/delete">
+        &nbsp;&nbsp;<button>Delete this listing</button>
+
+    </form> -->
+</body>

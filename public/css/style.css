@@ -1,0 +1,82 @@
+body{
+    background-color: pink;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.container{
+    flex: 1;
+}
+.navbar{
+    height: 5rem;
+    background-color: white;
+    color: #222222;
+
+}
+.nav-link{
+    color: black !important;
+}
+.footer{
+    background-color: #f7f7f7;
+    height: 2rem;
+    width: 90%;
+    margin: 0 auto;
+    border-top: 1px solid rgba(133, 131, 131, 0.493);
+    display: flex;
+    justify-content: space-between;
+    
+}
+.f-link a{
+    text-decoration: none;
+    color: #222222;
+
+}
+.f-link a:hover{
+    text-decoration: underline;
+   
+
+}
+.social a{
+    text-decoration: none;
+    color: #222222;
+}
+.card-list{
+    margin: 1 rem !important;
+    
+    
+    border-radius: 20px;
+    
+}
+.header{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.card-img-top{
+    height: 70%;
+    border-radius: 20px !important;
+}
+.card-list a{
+    text-decoration: none;
+    color: #222222;
+}
+.card-list:hover{
+    opacity: 0.8;
+}
+.add-btn{
+    background-color: #fe424d !important;
+    border: none !important;
+
+}
+h1{
+    color: #fe424d !important;
+}
+.top-show{
+    width: 20rem !important;
+    
+}
+.show-card{
+    border: none !important;
+}
+.show-text li{
+    text-decoration: none !important;
+}
