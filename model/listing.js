@@ -25,8 +25,14 @@ const listschema = new mongoose.Schema({
         type: Number,
         min: 1
     },
-    location: String,
-    country: String
+    location: {
+        type: String,
+        required: true
+    },
+    country: {
+        type: String,
+        required: true
+    }
 });
 
 const Lists = mongoose.model("List", listschema);

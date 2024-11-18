@@ -5,38 +5,56 @@
         <div class="col-7 offset-2">
 
 
-            <form method="post" action="/listings/<%=list._id%>?_method=PUT">
+            <form method="post" action="/listings/<%=list._id%>?_method=PUT" class="needs-validation" novalidate>
                 <div class="mb-3 ">
                     <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" name="listing[title]" value="<%=list.title%>">
+                    <input type="text" class="form-control" name="listing[title]" value="<%=list.title%>" required>
+                    <div class="invalid-feedback">
+                        Please select a valid title.
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description </label>
-                    <input type="text" class="form-control" name="listing[description]" value="<%=list.description%>">
+                    <input type="text" class="form-control" name="listing[description]" value="<%=list.description%>" required>
+                    <div class="invalid-feedback">
+                        Please give some description.
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="image" class="form-label">Image link/Url</label>
-                    <input type="text" class="form-control" name="listing[image][url]" value="<%=list.image.url%>">
+                    <input type="text" class="form-control" name="listing[image][url]" value="<%=list.image.url%>" required>
+                    <div class="invalid-feedback">
+                        Please select a valid image Link/url.
+                    </div>
         
                 </div>
                 <div class="row">
         
                     <div class="mb-3 col-md-4">
                         <label for="price" class="form-label">Price</label>
-                        <input type="number" class="form-control" name="listing[price]" value="<%=list.price%>">
+                        <input type="number" class="form-control" name="listing[price]" value="<%=list.price%>" required>
+                        <div class="invalid-feedback">
+                            Please select a valid price.
+                        </div>
                     </div>
                     
                     <div class="mb-3 col-md-8">
                         <label for="location" class="form-label">Location</label>
                         
-                        <input type="text" class="form-control" name="listing[location]" value="<%=list.location%>">
+                        <input type="text" class="form-control" name="listing[location]" value="<%=list.location%>" required>
+                        <div class="invalid-feedback">
+                            Please select a valid location.
+                        </div>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="country" class="form-label">Location</label>
         
         
-                    <input type="text" class="form-control" name="listing[country]" value="<%=list.country%>">
+                    <input type="text" class="form-control" name="listing[country]" value="<%=list.country%>" required>
+                    <div class="invalid-feedback">
+                        Please select a valid country.
+                    </div>
         
                 </div>
                 

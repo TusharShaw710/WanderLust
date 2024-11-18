@@ -80,3 +80,7 @@ h1{
 .show-text li{
     text-decoration: none !important;
 }
+.alert{
+    margin: 0 auto !important;
+    margin-top: 5rem !important;
+}
