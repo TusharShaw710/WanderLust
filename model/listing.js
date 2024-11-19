@@ -7,7 +7,8 @@ const listschema = new mongoose.Schema({
     },
     description: {
         type: String,
-        maxLength: 200
+        maxLength: 200,
+        required:true
     },
     image: {
         filename:{

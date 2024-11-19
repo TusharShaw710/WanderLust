@@ -5,6 +5,19 @@ const methodOverride = require('method-override');
 const ejsMate=require("ejs-mate");
 const asyncwrap=require("./utils/asyncWrap.js");
 const ExpressError=require("./utils/ExpressError.js");
+const {listingSchema}=require("./utils/Schema.js");
+
+const validateListing=(req,res,next)=>{
+    let {error}=listingSchema.validate(req.body);
+    
+    if(error){
+        let errMsg=error.details.map((el)=>el.message).join(",");
+        throw new ExpressError(400,errMsg);
+    }else{
+        next();
+    }
+
+}
 
 app.engine("ejs",ejsMate);
 
@@ -69,7 +82,7 @@ app.get("/listings/:id",async(req,res)=>{
 app.get("/listing/new",(req,res)=>{
     res.render("listings/new");
 });
-app.post("/add",asyncwrap(async(req,res,next)=>{
+app.post("/add",validateListing,asyncwrap(async(req,res,next)=>{
     const list= await new Listing(req.body.listing);
     if(!list){
         next(new ExpressError(401,"Invalid Input"));
@@ -83,13 +96,14 @@ app.get("/listing/:id/edit",async(req,res)=>{
     let list=await Listing.findById(id);
      res.render("listings/edit",{list});
 });
-app.put("/listings/:id",async(req,res)=>{
+app.put("/listings/:id",validateListing,asyncwrap(async(req,res)=>{
     let {id}=req.params;
     
-    await Listing.findByIdAndUpdate(id,req.body.listing);
+    await Listing.findByIdAndUpdate(id,req.body.listing,{ runValidators: true, new: true });
     res.redirect(`/listings/${id}`);
     
-});
+})
+);
 app.get("/listings/:id/delete",async(req,res)=>{
        let {id}=req.params;
        await Listing.findByIdAndDelete(id);
