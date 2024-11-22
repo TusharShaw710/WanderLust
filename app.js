@@ -117,11 +117,11 @@ app.put("/listings/:id",asyncwrap(async(req,res)=>{
     
 })
 );
-app.get("/listings/:id/delete",async(req,res)=>{
+app.get("/listings/:id/delete",asyncwrap(async(req,res)=>{
        let {id}=req.params;
        await Listing.findByIdAndDelete(id);
        res.redirect("/listings");
-});
+}));
 //Post review route
 app.post("/listings/:id/review",asyncwrap(async(req,res)=>{
     let listing=await Listing.findById(req.params.id);
@@ -137,7 +137,7 @@ app.post("/listings/:id/review",asyncwrap(async(req,res)=>{
 //Delete review route
 app.delete("/listings/:id/review/:reviewid",asyncwrap(async(req,res)=>{
     let {id,reviewid}=req.params;
-    await Listing.findByIdAndUpdate(id,{$pull:{reviews: reviewid}});
+    await Listing.findByIdAndUpdate(id,{$pull:{reviews: reviewid}});//$pull=delete reviews which matches the reviewid 
     await Review.findByIdAndDelete(reviewid);
 
     res.redirect(`/listings/${id}`);
