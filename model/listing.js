@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const {Schema}=mongoose;
 
 const listschema = new mongoose.Schema({
     title: {
@@ -33,6 +34,19 @@ const listschema = new mongoose.Schema({
     country: {
         type: String,
         required: true
+    },
+    reviews:[{
+        type:Schema.Types.ObjectId,
+        ref:"Review"
+
+    }]
+});
+
+listschema.post("findOneAndDelete",async(listing)=>{
+    if(listing){
+
+        await Review.deleteMany({_id:{$in:listing.reviews}});
+
     }
 });
 

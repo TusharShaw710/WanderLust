@@ -12,3 +12,12 @@ module.exports.listingSchema = Joi.object({
         }).allow(null,{}).optional(), // Allows `image` to be optional or `null`
     }).required(),
 });
+
+module.exports.reviewSchema=Joi.object({
+    listing: Joi.string().required(),
+    review:Joi.object({
+        ratings:Joi.number().required().min(1).max(5),
+        comments:Joi.string().required()
+
+    }).required()
+})
