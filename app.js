@@ -6,7 +6,8 @@ const ejsMate=require("ejs-mate");
 const asyncwrap=require("./utils/asyncWrap.js");
 const ExpressError=require("./utils/ExpressError.js");
 const {listingSchema,reviewSchema}=require("./utils/Schema.js");
-const Review=require("./model/review.js");
+const listings=require("./routes/listing.js");
+const reviews=require("./routes/review.js");
 
 const validateListing=(req,res,next)=>{
     let {error}=listingSchema.validate(req.body);
@@ -64,6 +65,9 @@ app.get("/",(req,res)=>{
 
 app.set("views",path.join(__dirname,"/views"));
 
+app.use("/listings",listings);
+app.use("/listings/:id/review",reviews);
+
 app.get("/testingList",(req,res)=>{
     let list=new Listing({
         Title:"ITC Sonar Bangla",
@@ -79,22 +83,22 @@ app.get("/testingList",(req,res)=>{
     });
     res.send("working");
 });
-app.get("/listings",asyncwrap(async(req,res)=>{
-    let listing=await Listing.find();
-    res.render("listings/index",{listing});
+// app.get("/listings",asyncwrap(async(req,res)=>{
+//     let listing=await Listing.find();
+//     res.render("listings/index",{listing});
     
-})
-);
-app.get("/listings/:id",async(req,res)=>{
-    let {id}=req.params;
-    const list = await Listing.findById(id).populate("reviews");
+// })
+// );
+// app.get("/listings/:id",async(req,res)=>{
+//     let {id}=req.params;
+//     const list = await Listing.findById(id).populate("reviews");
 
-    res.render("listings/show.ejs",{list});
+//     res.render("listings/show.ejs",{list});
     
-})
-app.get("/listing/new",(req,res)=>{
-    res.render("listings/new");
-});
+// })
+// app.get("/listing/new",(req,res)=>{
+//     res.render("listings/new");
+// });
 app.post("/add",asyncwrap(async(req,res,next)=>{
     const list= await new Listing(req.body.listing);
     if(!list){
@@ -104,44 +108,44 @@ app.post("/add",asyncwrap(async(req,res,next)=>{
     res.redirect("/listings");
 })
 );
-app.get("/listing/:id/edit",async(req,res)=>{
-    let {id}=req.params;
-    let list=await Listing.findById(id);
-     res.render("listings/edit",{list});
-});
-app.put("/listings/:id",asyncwrap(async(req,res)=>{
-    let {id}=req.params;
+// app.get("/listing/:id/edit",async(req,res)=>{
+//     let {id}=req.params;
+//     let list=await Listing.findById(id);
+//      res.render("listings/edit",{list});
+// });
+// app.put("/listings/:id",asyncwrap(async(req,res)=>{
+//     let {id}=req.params;
     
-    await Listing.findByIdAndUpdate(id,req.body.listing,{ runValidators: true, new: true });
-    res.redirect(`/listings/${id}`);
+//     await Listing.findByIdAndUpdate(id,req.body.listing,{ runValidators: true, new: true });
+//     res.redirect(`/listings/${id}`);
     
-})
-);
-app.get("/listings/:id/delete",asyncwrap(async(req,res)=>{
-       let {id}=req.params;
-       await Listing.findByIdAndDelete(id);
-       res.redirect("/listings");
-}));
-//Post review route
-app.post("/listings/:id/review",asyncwrap(async(req,res)=>{
-    let listing=await Listing.findById(req.params.id);
+// })
+// );
+// app.get("/listings/:id/delete",asyncwrap(async(req,res)=>{
+//        let {id}=req.params;
+//        await Listing.findByIdAndDelete(id);
+//        res.redirect("/listings");
+// }));
+// //Post review route
+// app.post("/listings/:id/review",asyncwrap(async(req,res)=>{
+//     let listing=await Listing.findById(req.params.id);
     
 
-    let newReview=new Review(req.body.review);
+//     let newReview=new Review(req.body.review);
 
-    await newReview.save();
-    await listing.reviews.push(newReview);
-    let result=await listing.save();
-    res.redirect(`/listings/${req.params.id}`);
-}));
-//Delete review route
-app.delete("/listings/:id/review/:reviewid",asyncwrap(async(req,res)=>{
-    let {id,reviewid}=req.params;
-    await Listing.findByIdAndUpdate(id,{$pull:{reviews: reviewid}});//$pull=delete reviews which matches the reviewid 
-    await Review.findByIdAndDelete(reviewid);
+//     await newReview.save();
+//     await listing.reviews.push(newReview);
+//     let result=await listing.save();
+//     res.redirect(`/listings/${req.params.id}`);
+// }));
+// //Delete review route
+// app.delete("/listings/:id/review/:reviewid",asyncwrap(async(req,res)=>{
+//     let {id,reviewid}=req.params;
+//     await Listing.findByIdAndUpdate(id,{$pull:{reviews: reviewid}});//$pull=delete reviews which matches the reviewid 
+//     await Review.findByIdAndDelete(reviewid);
 
-    res.redirect(`/listings/${id}`);
-}));
+//     res.redirect(`/listings/${id}`);
+// }));
 //-----Error Handler------
 app.all("*",(req,res,next)=>{//sirf err aur next meh dikkat ho jata hai yaha!
     next(new ExpressError(404,"Page Not Found!"));
